@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PvP Genie">
+    <title>PvP Genie Pro - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { 
+            background-color: #0d0d10; 
+            color: #e2e8f0; 
+            font-family: -apple-system, sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            padding-top: env(safe-area-inset-top); 
+            padding-bottom: env(safe-area-inset-bottom);
+            overflow: hidden; /* Prevent scrollbar from interfering with background effect */
+        }
 
+        /* Liquid Glass Background - subtle radial gradient with animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(30, 144, 255, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(147, 112, 219, 0.15) 0%, transparent 50%);
+            animation: backgroundShift 15s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0% {
+                background-position: 0% 0%;
+                transform: scale(1);
+            }
+            50% {
+                background-position: 100% 100%;
+                transform: scale(1.05);
+            }
+            100% {
+                background-position: 0% 0%;
+                transform: scale(1);
+            }
+        }
+
+        .glass-card { 
+            background: rgba(28, 28, 34, 0.6); /* Slightly more transparent */
+            backdrop-filter: blur(15px); /* Stronger blur for true glass effect */
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter, more defined border */
+            border-radius: 20px; 
+            transition: all 0.3s ease-in-out; /* Smoother transition */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+            position: relative; /* For glow effect */
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+            transition: transform 0.5s ease-out;
+            transform: rotate(0deg);
+            z-index: -1;
+            opacity: 0;
+        }
+        .glass-card:hover::before {
+            transform: rotate(45deg);
+            opacity: 1;
+        }
+        .glass-card:active {
+            transform: scale(0.96); /* Slightly more pronounced press */
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glowing icon effect */
+        .icon-glow-blue {
+            filter: drop-shadow(0 0 8px rgba(30, 144, 255, 0.6));
+        }
+        .icon-glow-amber {
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+        }
+        .icon-glow-emerald {
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+        }
+
+        /* Title icon - more pronounced glow */
+        .title-icon-glow {
+            filter: drop-shadow(0 0 15px rgba(30, 144, 255, 0.8));
+        }
+    </style>
+</head>
+<body class="p-4 pb-12 max-w-md mx-auto">
+
+    <div class="mt-4 mb-8 flex flex-col items-center justify-center text-center">
+        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-[28px] flex items-center justify-center shadow-2xl mb-4 shadow-blue-500/20 title-icon-glow">
+            <i data-lucide="swords" class="w-10 h-10 text-white"></i>
+        </div>
+        <h1 class="text-3xl font-black italic uppercase tracking-tighter">PvP Genie <span class="text-blue-500">Pro</span></h1>
+        <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Companion App</p>
+    </div>
+
+    <p class="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-3 px-2">My Tools</p>
+
+    <div class="space-y-4">
+        
+        <a href="index-3(1).html" class="glass-card p-4 flex items-center gap-4 block no-underline text-inherit">
+            <div class="w-14 h-14 bg-gradient-to-br from-blue-700 to-blue-900 rounded-2xl flex items-center justify-center text-blue-300 icon-glow-blue">
+                <i data-lucide="scan-line" class="w-7 h-7"></i>
+            </div>
+            <div class="flex-1">
+                <h2 class="text-lg font-black italic uppercase tracking-tighter">IV Calculator</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Check stats & power up costs</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500"></i>
+        </a>
+
+        <a href="#" class="glass-card p-4 flex items-center gap-4 block no-underline text-inherit opacity-70">
+            <div class="w-14 h-14 bg-gradient-to-br from-amber-700 to-amber-900 rounded-2xl flex items-center justify-center text-amber-300 icon-glow-amber">
+                <i data-lucide="shield-half" class="w-7 h-7"></i>
+            </div>
+            <div class="flex-1">
+                <h2 class="text-lg font-black italic uppercase tracking-tighter">Team Builder</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Coming Soon</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-600"></i>
+        </a>
+
+        <a href="#" class="glass-card p-4 flex items-center gap-4 block no-underline text-inherit opacity-70">
+            <div class="w-14 h-14 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-2xl flex items-center justify-center text-emerald-300 icon-glow-emerald">
+                <i data-lucide="book-open" class="w-7 h-7"></i>
+            </div>
+            <div class="flex-1">
+                <h2 class="text-lg font-black italic uppercase tracking-tighter">My Scans</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Coming Soon</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-600"></i>
+        </a>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
