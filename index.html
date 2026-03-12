@@ -14,138 +14,92 @@
             background-color: #0d0d10; 
             color: #e2e8f0; 
             font-family: -apple-system, sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
             padding-top: env(safe-area-inset-top); 
             padding-bottom: env(safe-area-inset-bottom);
-            overflow: hidden; /* Prevent scrollbar from interfering with background effect */
+            overflow-x: hidden;
         }
 
-        /* Liquid Glass Background - subtle radial gradient with animation */
+        /* Liquid Glass Background */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 20% 80%, rgba(30, 144, 255, 0.15) 0%, transparent 50%),
                         radial-gradient(circle at 80% 20%, rgba(147, 112, 219, 0.15) 0%, transparent 50%);
-            animation: backgroundShift 15s infinite alternate ease-in-out;
             z-index: -1;
-        }
-
-        @keyframes backgroundShift {
-            0% {
-                background-position: 0% 0%;
-                transform: scale(1);
-            }
-            50% {
-                background-position: 100% 100%;
-                transform: scale(1.05);
-            }
-            100% {
-                background-position: 0% 0%;
-                transform: scale(1);
-            }
         }
 
         .glass-card { 
-            background: rgba(28, 28, 34, 0.6); /* Slightly more transparent */
-            backdrop-filter: blur(15px); /* Stronger blur for true glass effect */
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter, more defined border */
-            border-radius: 20px; 
-            transition: all 0.3s ease-in-out; /* Smoother transition */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow */
-            position: relative; /* For glow effect */
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
-            transition: transform 0.5s ease-out;
-            transform: rotate(0deg);
-            z-index: -1;
-            opacity: 0;
-        }
-        .glass-card:hover::before {
-            transform: rotate(45deg);
-            opacity: 1;
-        }
+
         .glass-card:active {
-            transform: scale(0.96); /* Slightly more pronounced press */
+            transform: scale(0.96);
+            background: rgba(255, 255, 255, 0.06);
             border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.3);
         }
 
-        /* Glowing icon effect */
-        .icon-glow-blue {
-            filter: drop-shadow(0 0 8px rgba(30, 144, 255, 0.6));
-        }
-        .icon-glow-amber {
-            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
-        }
-        .icon-glow-emerald {
-            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+        .icon-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Title icon - more pronounced glow */
-        .title-icon-glow {
-            filter: drop-shadow(0 0 15px rgba(30, 144, 255, 0.8));
-        }
+        .glow-blue { filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5)); }
+        .glow-purple { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5)); }
+        .glow-emerald { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5)); }
     </style>
 </head>
-<body class="p-4 pb-12 max-w-md mx-auto">
+<body class="p-6 max-w-md mx-auto">
 
-    <div class="mt-4 mb-8 flex flex-col items-center justify-center text-center">
-        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-[28px] flex items-center justify-center shadow-2xl mb-4 shadow-blue-500/20 title-icon-glow">
-            <i data-lucide="swords" class="w-10 h-10 text-white"></i>
+    <div class="mt-8 mb-10 flex flex-col items-center text-center">
+        <div class="w-20 h-20 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[28px] flex items-center justify-center shadow-2xl mb-4 relative">
+            <div class="absolute inset-0 bg-white/20 blur-xl rounded-full"></div>
+            <i data-lucide="zap" class="w-10 h-10 text-white relative z-10"></i>
         </div>
         <h1 class="text-3xl font-black italic uppercase tracking-tighter">PvP Genie <span class="text-blue-500">Pro</span></h1>
-        <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Companion App</p>
+        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-2">Neural Link Active</p>
     </div>
-
-    <p class="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-3 px-2">My Tools</p>
 
     <div class="space-y-4">
         
-        <a href="PVP-iv-rank" class="glass-card p-4 flex items-center gap-4 block no-underline text-inherit">
-            <div class="w-14 h-14 bg-gradient-to-br from-blue-700 to-blue-900 rounded-2xl flex items-center justify-center text-blue-300 icon-glow-blue">
-                <i data-lucide="scan-line" class="w-7 h-7"></i>
+        <a href="PVP-iv-rank" class="glass-card p-5 flex items-center gap-4 block no-underline">
+            <div class="w-14 h-14 icon-box rounded-2xl flex items-center justify-center text-blue-400 glow-blue">
+                <i data-lucide="award" class="w-7 h-7"></i>
             </div>
             <div class="flex-1">
-                <h2 class="text-lg font-black italic uppercase tracking-tighter">IV Calculator</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Check stats & power up costs</p>
-            </div>
-            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500"></i>
-        </a>
-
-        <a href="#" class="glass-card p-4 flex items-center gap-4 block no-underline text-inherit opacity-70">
-            <div class="w-14 h-14 bg-gradient-to-br from-amber-700 to-amber-900 rounded-2xl flex items-center justify-center text-amber-300 icon-glow-amber">
-                <i data-lucide="shield-half" class="w-7 h-7"></i>
-            </div>
-            <div class="flex-1">
-                <h2 class="text-lg font-black italic uppercase tracking-tighter">Cp Calculator</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Coming Soon</p>
+                <h2 class="text-lg font-black italic uppercase tracking-tighter">PVP IV Rank</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Rankings & Meta Stats</p>
             </div>
             <i data-lucide="chevron-right" class="w-5 h-5 text-slate-600"></i>
         </a>
 
-        <a href="#" class="glass-card p-4 flex items-center gap-4 block no-underline text-inherit opacity-70">
-            <div class="w-14 h-14 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-2xl flex items-center justify-center text-emerald-300 icon-glow-emerald">
-                <i data-lucide="book-open" class="w-7 h-7"></i>
+        <a href="cp calculator.html" class="glass-card p-5 flex items-center gap-4 block no-underline">
+            <div class="w-14 h-14 icon-box rounded-2xl flex items-center justify-center text-purple-400 glow-purple">
+                <i data-lucide="calculator" class="w-7 h-7"></i>
             </div>
             <div class="flex-1">
-                <h2 class="text-lg font-black italic uppercase tracking-tighter">My Scans</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Coming Soon</p>
+                <h2 class="text-lg font-black italic uppercase tracking-tighter">CP Calculator</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Power Up & Evolution Costs</p>
             </div>
             <i data-lucide="chevron-right" class="w-5 h-5 text-slate-600"></i>
         </a>
+
+        <div class="pt-4">
+            <p class="text-[10px] text-slate-600 font-black uppercase tracking-widest mb-3 px-2">System</p>
+            <div class="glass-card p-4 flex items-center justify-between opacity-60">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="database" class="w-5 h-5 text-emerald-400 glow-emerald"></i>
+                    <span class="text-xs font-bold uppercase tracking-tight">Local Storage Active</span>
+                </div>
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+            </div>
+        </div>
 
     </div>
 
