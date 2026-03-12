@@ -152,11 +152,14 @@
         const DUST_COSTS = {1:200, 3:400, 5:600, 7:800, 9:1000, 11:1300, 13:1600, 15:1900, 17:2200, 19:2500, 21:3000, 23:3500, 25:4000, 27:4500, 29:5000, 31:6000, 33:7000, 35:8000, 37:9000, 39:10000, 41:12000, 43:15000, 45:18000, 47:20000};
         const CANDY_COSTS = {1:1, 11:2, 21:3, 25:4, 31:6, 33:8, 35:10, 37:12, 39:15, 41:10, 43:12, 45:15, 47:17, 49:20};
 
-        async function init() {
-            const [s, e] = await Promise.all([
-                fetch('https://pogoapi.net/api/v1/pokemon_stats.json'),
-                fetch('https://pogoapi.net/api/v1/pokemon_evolutions.json')
-            ]);
+ // Add the proxy URL before the pogoapi link
+async function init() {
+    const proxy = "https://corsproxy.io/?"; 
+    const [s, e] = await Promise.all([
+        fetch(proxy + 'https://pogoapi.net/api/v1/pokemon_stats.json'),
+        fetch(proxy + 'https://pogoapi.net/api/v1/pokemon_evolutions.json')
+    ]);
+    // rest of your code...
             pokemonDB = await s.json(); evolutionDB = await e.json();
             lucide.createIcons();
         }
