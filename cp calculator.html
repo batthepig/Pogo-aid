@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>PvP Genie Pro - CP Calculator</title>
+    <title>PvP Genie Pro</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -14,13 +14,11 @@
             background-color: #0d0d10; 
             color: #e2e8f0; 
             font-family: -apple-system, sans-serif; 
-            /* Added padding for the notch/status bar area */
             padding: calc(env(safe-area-inset-top) + 10px) 16px 40px 16px; 
         }
         .genie-card { background: #1c1c22; border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; }
         .nav-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; }
         
-        /* Your Original Slider Styles */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; height: 34px; outline: none; position: relative; z-index: 10; }
         input[type=range]::-webkit-slider-thumb { 
             -webkit-appearance: none; height: 28px; width: 28px; border-radius: 50%; 
@@ -46,10 +44,10 @@
 
     <div class="space-y-3 mb-4">
         <div class="relative">
-            <input type="text" id="pkmnSearch" placeholder="Search Pokemon..." class="w-full h-14 bg-[#1c1c22] rounded-2xl px-6 text-white outline-none">
+            <input type="text" id="pkmnSearch" placeholder="Search Pokemon..." class="w-full h-14 bg-[#1c1c22] rounded-2xl px-6 text-white outline-none border border-white/5">
             <div id="searchResults" class="absolute z-50 w-full mt-2 bg-[#1c1c22] hidden rounded-xl border border-white/10 max-h-60 overflow-y-auto"></div>
         </div>
-        <input type="number" id="currentCP" placeholder="Current CP" class="w-full h-14 bg-[#1c1c22] rounded-xl px-4 text-white text-center font-bold outline-none">
+        <input type="number" id="currentCP" placeholder="Current CP" class="w-full h-14 bg-[#1c1c22] rounded-xl px-4 text-white text-center font-bold outline-none border border-white/5">
     </div>
 
     <div id="pkmnHeader" class="genie-card p-4 mb-4 flex items-center gap-4">
@@ -85,20 +83,19 @@
     </div>
 
     <script>
-        // Exact original logic preserved
         let pokemonDB = [], activePkmn = null;
 
         async function init() {
             try {
-                // Fetch using PogoAPI
                 const response = await fetch('https://pogoapi.net/api/v1/pokemon_stats.json');
                 pokemonDB = await response.json();
                 lucide.createIcons();
-            } catch (err) { console.error("Database connection error"); }
+            } catch (err) { console.error("Database error"); }
         }
 
         function calculateCP(pkmn, a, d, s, level) {
-            const m = 0.790300; 
+            // Simplified CPM placeholder to match your original structure
+            const m = 0.7903; 
             return Math.floor((pkmn.base_attack + a) * Math.sqrt(pkmn.base_defense + d) * Math.sqrt(pkmn.base_stamina + s) * (m*m) / 10);
         }
 
