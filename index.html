@@ -19,13 +19,13 @@
             overflow-x: hidden;
         }
 
-        /* Liquid Glass Background */
+        /* Animated Liquid Glass Background */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(30, 144, 255, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(147, 112, 219, 0.15) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 80%, rgba(30, 144, 255, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(147, 112, 219, 0.12) 0%, transparent 50%);
             z-index: -1;
         }
 
@@ -41,7 +41,7 @@
 
         .glass-card:active {
             transform: scale(0.96);
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.07);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
@@ -52,7 +52,6 @@
 
         .glow-blue { filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5)); }
         .glow-purple { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5)); }
-        .glow-emerald { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5)); }
     </style>
 </head>
 <body class="p-6 max-w-md mx-auto">
@@ -60,7 +59,7 @@
     <div class="mt-8 mb-10 flex flex-col items-center text-center">
         <div class="w-20 h-20 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[28px] flex items-center justify-center shadow-2xl mb-4 relative">
             <div class="absolute inset-0 bg-white/20 blur-xl rounded-full"></div>
-            <i data-lucide="zap" class="w-10 h-10 text-white relative z-10"></i>
+            <i data-lucide="swords" class="w-10 h-10 text-white relative z-10"></i>
         </div>
         <h1 class="text-3xl font-black italic uppercase tracking-tighter">PvP Genie <span class="text-blue-500">Pro</span></h1>
         <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-2">Neural Link Active</p>
@@ -68,36 +67,35 @@
 
     <div class="space-y-4">
         
-        <a href="PVP-iv-rank" class="glass-card p-5 flex items-center gap-4 block no-underline">
+        <a href="PVP-iv-rank.html" class="glass-card p-5 flex items-center gap-4 block no-underline text-inherit">
             <div class="w-14 h-14 icon-box rounded-2xl flex items-center justify-center text-blue-400 glow-blue">
-                <i data-lucide="award" class="w-7 h-7"></i>
+                <i data-lucide="scan-face" class="w-7 h-7"></i>
             </div>
             <div class="flex-1">
-                <h2 class="text-lg font-black italic uppercase tracking-tighter">PVP IV Rank</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase">Rankings & Meta Stats</p>
+                <h2 class="text-lg font-black italic uppercase tracking-tighter">IV Calculator</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Rankings & Stats</p>
             </div>
             <i data-lucide="chevron-right" class="w-5 h-5 text-slate-600"></i>
         </a>
 
-        <a href="cp calculator.html" class="glass-card p-5 flex items-center gap-4 block no-underline">
+        <a href="cp%20calculator.html" class="glass-card p-5 flex items-center gap-4 block no-underline text-inherit">
             <div class="w-14 h-14 icon-box rounded-2xl flex items-center justify-center text-purple-400 glow-purple">
                 <i data-lucide="calculator" class="w-7 h-7"></i>
             </div>
             <div class="flex-1">
                 <h2 class="text-lg font-black italic uppercase tracking-tighter">CP Calculator</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase">Power Up & Evolution Costs</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Evolution & Dust Costs</p>
             </div>
             <i data-lucide="chevron-right" class="w-5 h-5 text-slate-600"></i>
         </a>
 
-        <div class="pt-4">
-            <p class="text-[10px] text-slate-600 font-black uppercase tracking-widest mb-3 px-2">System</p>
-            <div class="glass-card p-4 flex items-center justify-between opacity-60">
+        <div class="pt-6">
+            <div class="glass-card p-4 flex items-center justify-between opacity-50">
                 <div class="flex items-center gap-3">
-                    <i data-lucide="database" class="w-5 h-5 text-emerald-400 glow-emerald"></i>
-                    <span class="text-xs font-bold uppercase tracking-tight">Local Storage Active</span>
+                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+                    <span class="text-[10px] font-bold uppercase tracking-widest">Database Synced</span>
                 </div>
-                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
             </div>
         </div>
 
