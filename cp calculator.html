@@ -1,57 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-</head>
-    <a href="cp calculator.html">Go to Scanner</a>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>PvP Genie Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { background-color: #0d0d10; color: #e2e8f0; font-family: -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; padding-top: env(safe-area-inset-top); }
+        body { 
+            background-color: #0d0d10; 
+            color: #e2e8f0; 
+            font-family: -apple-system, sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            padding-top: env(safe-area-inset-top); 
+            padding-bottom: env(safe-area-inset-bottom);
+        }
         .genie-card { background: linear-gradient(180deg, #1c1c22 0%, #141417 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; }
+        
+        /* Custom Sliders */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; height: 34px; outline: none; position: relative; z-index: 20; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 28px; width: 28px; border-radius: 50%; background: #fff; border: 3px solid #3b82f6; cursor: pointer; box-shadow: 0 0 12px rgba(0,0,0,0.6); margin-top: -2px; }
-        .rank-ring { width: 70px; height: 70px; border-radius: 50%; border: 4px solid #2d2d35; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); flex-shrink: 0; }
-        .rank-top { border-color: #facc15; box-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
+        input[type=range]::-webkit-slider-thumb { 
+            -webkit-appearance: none; height: 28px; width: 28px; border-radius: 50%; 
+            background: #fff; border: 3px solid #3b82f6; cursor: pointer; 
+            box-shadow: 0 0 12px rgba(0,0,0,0.6); margin-top: -2px; 
+        }
+        input[type=range]:disabled::-webkit-slider-thumb { border-color: #64748b; background: #cbd5e1; box-shadow: none; }
+        
+        /* Level Slider specific styling */
+        .level-slider::-webkit-slider-thumb { border-color: #f59e0b; }
+        
         .iv-bar-bg { height: 14px; background: #23232b; border-radius: 7px; overflow: hidden; position: absolute; width: 100%; top: 10px; pointer-events: none; }
         .iv-bar-fill { height: 100%; transition: width 0.2s ease-out; }
+        
+        /* Buttons */
+        .btn-action { 
+            height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            border-radius: 12px; font-weight: 900; text-transform: uppercase; font-size: 12px;
+            letter-spacing: 1px; transition: all 0.2s;
+        }
+        .btn-action:active:not(:disabled) { transform: scale(0.96); }
+        .btn-action:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(100%); }
     </style>
 </head>
-<body class="p-4 pb-24 max-w-md mx-auto">
+<body class="p-4 pb-12 max-w-md mx-auto">
 
     <div class="space-y-3 mb-4">
         <div class="relative">
-            <input type="text" id="pkmnSearch" placeholder="Search Pokemon..." class="w-full bg-[#1c1c22] rounded-2xl py-4 px-6 text-white border-none focus:ring-2 focus:ring-blue-500 outline-none shadow-xl">
+            <input type="text" id="pkmnSearch" placeholder="Search Pokemon..." class="w-full h-14 bg-[#1c1c22] rounded-2xl px-6 text-white border-none focus:ring-2 focus:ring-blue-500 outline-none shadow-xl text-lg">
             <div id="searchResults" class="absolute z-50 w-full mt-2 bg-[#1c1c22] rounded-xl hidden shadow-2xl border border-white/10 max-h-60 overflow-y-auto"></div>
         </div>
         <div class="flex gap-2">
-            <input type="number" id="currentCP" placeholder="Current CP" class="w-1/2 bg-[#1c1c22] rounded-xl py-3 px-4 text-white border-none outline-none text-center font-bold">
-            <button id="evolveBtn" onclick="toggleEvolve()" class="w-1/2 bg-blue-600 rounded-xl py-3 px-4 text-white font-black uppercase text-xs hidden flex items-center justify-center gap-2 tracking-widest active:scale-95 transition-transform">
-                <i data-lucide="chevrons-up" class="w-4 h-4"></i> View Evolution
-            </button>
+            <input type="number" id="currentCP" placeholder="Current CP" class="w-full h-14 bg-[#1c1c22] rounded-xl px-4 text-white border-none outline-none text-center font-bold text-lg">
         </div>
     </div>
 
     <div id="pkmnHeader" class="genie-card p-4 mb-4 flex items-center gap-4">
         <div class="w-16 h-16 bg-[#25252b] rounded-2xl flex items-center justify-center text-blue-400">
-            <i data-lucide="shield" class="w-8 h-8"></i>
+            <i data-lucide="crosshair" class="w-8 h-8"></i>
         </div>
         <div class="flex-1">
             <div class="flex items-center gap-2">
                 <h1 id="pkmnName" class="text-xl font-black italic uppercase tracking-tighter">Select Pokemon</h1>
-                <span id="detectedLevel" class="bg-blue-600 text-[10px] font-black px-2 py-0.5 rounded-md hidden">LV --</span>
+                <span id="detectedLevelBadge" class="bg-blue-600 text-[10px] font-black px-2 py-0.5 rounded-md hidden">LV --</span>
             </div>
             <p id="statsDisplay" class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Base Stats: -- / -- / --</p>
         </div>
@@ -81,50 +93,58 @@
         </div>
     </div>
 
-    <div id="leagueCards" class="space-y-3">
-        <div class="genie-card p-4 border-l-4 border-blue-500 shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <div>
-                    <p class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Great League</p>
-                    <p id="glCP" class="text-3xl font-black italic">CP --</p>
-                    <p id="glLevel" class="text-[10px] text-slate-500 font-bold uppercase">Target Lv --</p>
-                </div>
-                <div id="glRankRing" class="rank-ring">
-                    <span class="text-[9px] text-slate-500 font-bold uppercase">Rank</span>
-                    <span id="glRankText" class="text-xl font-black">--</span>
-                    <span id="glPercent" class="text-[9px] text-blue-400 font-bold">--%</span>
+    <div class="flex gap-2 mb-4">
+        <button id="btnDevolve" disabled class="btn-action bg-slate-700 text-white w-1/2" onclick="traverseEvo(-1)">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i> Devolve
+        </button>
+        <button id="btnEvolve" disabled class="btn-action bg-purple-600 text-white w-1/2" onclick="traverseEvo(1)">
+            Evolve <i data-lucide="chevron-up" class="w-4 h-4"></i>
+        </button>
+    </div>
+
+    <div class="genie-card p-5 border-l-4 border-amber-500 shadow-lg mb-4">
+        <div class="flex justify-between items-center mb-2">
+            <div>
+                <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">Target Calculator</p>
+                <div class="flex items-baseline gap-2">
+                    <p id="targetCP" class="text-4xl font-black italic">CP --</p>
+                    <p id="targetLevelText" class="text-xs text-slate-400 font-bold uppercase">Lv --</p>
                 </div>
             </div>
-            <div class="pt-2 border-t border-white/5 flex justify-between text-[11px]">
-                <span id="glDust" class="text-slate-400">Dust: <b class="text-white">0</b></span>
-                <span id="glXL" class="text-blue-400 hidden">XL: <b class="font-black">0</b></span>
-                <span id="glCandy" class="text-slate-400">Total Candy: <b class="text-white">0</b></span>
-            </div>
+            <button id="btnPowerUp" disabled class="btn-action bg-amber-500 text-black px-4 py-2" onclick="powerUp()">
+                <i data-lucide="zap" class="w-4 h-4"></i> +0.5
+            </button>
         </div>
 
-        <div class="genie-card p-4 border-l-4 border-purple-500 shadow-lg">
-            <div class="flex justify-between items-center mb-3">
-                <div>
-                    <p class="text-[10px] font-black text-purple-400 uppercase tracking-widest mb-1">Ultra League</p>
-                    <p id="ulCP" class="text-3xl font-black italic">CP --</p>
-                    <p id="ulLevel" class="text-[10px] text-slate-500 font-bold uppercase">Target Lv --</p>
-                </div>
-                <div id="ulRankRing" class="rank-ring">
-                    <span class="text-[9px] text-slate-500 font-bold uppercase">Rank</span>
-                    <span id="ulRankText" class="text-xl font-black">--</span>
-                    <span id="ulPercent" class="text-[9px] text-purple-400 font-bold">--%</span>
-                </div>
+        <div class="relative h-10 mt-4 mb-2">
+            <input type="range" id="levelSlider" class="level-slider w-full" min="1" max="51" step="0.5" value="1" disabled>
+        </div>
+
+        <div class="bg-[#141417] rounded-xl p-3 border border-white/5 flex justify-between text-xs mt-2">
+            <div class="flex items-center gap-1.5 text-slate-300">
+                <div class="w-2 h-2 rounded-full bg-blue-300"></div> <span id="costDust" class="font-bold">0</span>
             </div>
-            <div class="pt-2 border-t border-white/5 flex justify-between text-[11px]">
-                <span id="ulDust" class="text-slate-400">Dust: <b class="text-white">0</b></span>
-                <span id="ulXL" class="text-purple-400 hidden">XL: <b class="font-black">0</b></span>
-                <span id="ulCandy" class="text-slate-400">Total Candy: <b class="text-white">0</b></span>
+            <div class="flex items-center gap-1.5 text-slate-300">
+                <div class="w-2 h-2 rounded-full bg-orange-400"></div> <span id="costCandy" class="font-bold">0</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-slate-300">
+                <div class="w-2 h-2 rounded-full bg-emerald-400 hidden" id="iconXL"></div> <span id="costXL" class="font-bold hidden text-emerald-400">0 XL</span>
             </div>
         </div>
     </div>
 
     <script>
-        let pokemonDB = [], evolutionDB = [], selected = null, isEvolved = false;
+        let pokemonDB = [], evolutionDB = [];
+        let baseSearchPkmn = null; 
+        let activePkmn = null; 
+        
+        // State variables
+        let detectedCurrentLevel = 1;
+        let evoPathCost = 0; 
+
+        // Lookup maps for evolution traversal
+        const evoForward = {}; 
+        const evoBackward = {}; 
 
         const CPM_DATA = {1:0.094, 1.5:0.13513743, 2:0.16639787, 2.5:0.19265092, 3:0.21573247, 3.5:0.23657266, 4:0.25572005, 4.5:0.27353038, 5:0.29024988, 5.5:0.30605737, 6:0.3210876, 6.5:0.33544501, 7:0.34921268, 7.5:0.36245775, 8:0.37523559, 8.5:0.3875924, 9:0.39956728, 9.5:0.41119355, 10:0.42250001, 10.5:0.43292641, 11:0.44310755, 11.5:0.45305995, 12:0.46279839, 12.5:0.47233608, 13:0.48168495, 13.5:0.4908558, 14:0.49985844, 14.5:0.50870176, 15:0.51739355, 15.5:0.52594251, 16:0.53435433, 16.5:0.54263576, 17:0.55079269, 17.5:0.55883057, 18:0.56675452, 18.5:0.57456915, 19:0.58227891, 19.5:0.5898879, 20:0.59740001, 20.5:0.60481881, 21:0.6121571, 21.5:0.61940412, 22:0.62656713, 22.5:0.63364443, 23:0.64064114, 23.5:0.6475601, 24:0.65440001, 24.5:0.66116927, 25:0.66787003, 25.5:0.67450474, 26:0.68107513, 26.5:0.68758413, 27:0.6940336, 27.5:0.70042631, 28:0.70676442, 28.5:0.71304991, 29:0.71928526, 29.5:0.7254712, 30:0.7317, 30.5:0.734741, 31:0.73776948, 31.5:0.74078557, 32:0.74378943, 32.5:0.74678121, 33:0.74976104, 33.5:0.75272908, 34:0.75568551, 34.5:0.75863037, 35:0.76156384, 35.5:0.76448606, 36:0.76739717, 36.5:0.77029727, 37:0.7731865, 37.5:0.77606496, 38:0.77893275, 38.5:0.78179005, 39:0.78463697, 39.5:0.78747357, 40:0.7903, 40.5:0.7928, 41:0.7953, 41.5:0.7978, 42:0.8002, 42.5:0.8027, 43:0.8053, 43.5:0.8078, 44:0.8102, 44.5:0.8127, 45:0.8153, 45.5:0.8177, 46:0.8202, 46.5:0.8227, 47:0.8252, 47.5:0.8277, 48:0.8302, 48.5:0.8327, 49:0.8352, 49.5:0.8377, 50:0.8403, 50.5:0.8428, 51:0.8453};
         const DUST_COSTS = {1:200, 3:400, 5:600, 7:800, 9:1000, 11:1300, 13:1600, 15:1900, 17:2200, 19:2500, 21:3000, 23:3500, 25:4000, 27:4500, 29:5000, 31:6000, 33:7000, 35:8000, 37:9000, 39:10000, 41:12000, 43:15000, 45:18000, 47:20000};
@@ -135,112 +155,160 @@
                 fetch('https://pogoapi.net/api/v1/pokemon_stats.json'),
                 fetch('https://pogoapi.net/api/v1/pokemon_evolutions.json')
             ]);
-            pokemonDB = await s.json(); evolutionDB = await e.json();
+            pokemonDB = await s.json(); 
+            evolutionDB = await e.json();
+
+            // Build Evolution Maps for O(1) traversal
+            evolutionDB.forEach(entry => {
+                if (entry.evolutions && entry.evolutions.length > 0) {
+                    const next = entry.evolutions[0]; // Simplified to 1st evo branch
+                    evoForward[entry.pokemon_name] = { name: next.pokemon_name, cost: next.candy_required };
+                    evoBackward[next.pokemon_name] = { name: entry.pokemon_name, cost: next.candy_required };
+                }
+            });
+
             lucide.createIcons();
         }
 
-        function calculate() {
-            if (!selected) return;
-            const atk = parseInt(document.getElementById('atkIn').value);
-            const def = parseInt(document.getElementById('defIn').value);
-            const sta = parseInt(document.getElementById('staIn').value);
-            let basePkmn = selected, target = selected, evolveCandy = 0;
-            const evoInfo = evolutionDB.find(e => e.pokemon_name === selected.pokemon_name);
-            if (isEvolved && evoInfo) {
-                target = pokemonDB.find(p => p.pokemon_name === evoInfo.evolutions[0].pokemon_name);
-                evolveCandy = evoInfo.evolutions[0].candy_required || 0;
-            }
-
-            // Global level detection for the badge
-            const curCP = parseInt(document.getElementById('currentCP').value) || 0;
-            const levelBadge = document.getElementById('detectedLevel');
-            if (curCP > 0) {
-                let bestMatch = 1, minDiff = 999;
-                for (let lv in CPM_DATA) {
-                    const m = CPM_DATA[lv];
-                    const cp = Math.floor((basePkmn.base_attack + atk) * Math.sqrt(basePkmn.base_defense + def) * Math.sqrt(basePkmn.base_stamina + sta) * (m*m) / 10);
-                    if (Math.abs(cp - curCP) < minDiff) { minDiff = Math.abs(cp - curCP); bestMatch = parseFloat(lv); }
-                }
-                levelBadge.innerText = `LV ${bestMatch}`;
-                levelBadge.classList.remove('hidden');
-            } else {
-                levelBadge.classList.add('hidden');
-            }
-
-            processLeague("gl", target, 1500, atk, def, sta, evolveCandy, basePkmn);
-            processLeague("ul", target, 2500, atk, def, sta, evolveCandy, basePkmn);
+        function getIVs() {
+            return {
+                a: parseInt(document.getElementById('atkIn').value),
+                d: parseInt(document.getElementById('defIn').value),
+                s: parseInt(document.getElementById('staIn').value)
+            };
         }
 
-        function processLeague(key, pkmn, cap, ivA, ivD, ivS, evoCost, basePkmn) {
-            const user = getBestStats(pkmn, ivA, ivD, ivS, cap);
-            
-            const allSPs = [];
-            for(let a=0; a<=15; a++) for(let d=0; d<=15; d++) for(let s=0; s<=15; s++) {
-                allSPs.push(getBestStats(pkmn, a, d, s, cap).sp);
-            }
-            allSPs.sort((a,b) => b-a);
-            const rank = allSPs.indexOf(user.sp) + 1;
-            const percent = ((user.sp / allSPs[0]) * 100).toFixed(2);
+        function calculateCP(pkmn, a, d, s, level) {
+            const m = CPM_DATA[level];
+            const cp = Math.floor((pkmn.base_attack + a) * Math.sqrt(pkmn.base_defense + d) * Math.sqrt(pkmn.base_stamina + s) * (m*m) / 10);
+            return Math.max(10, cp);
+        }
 
-            document.getElementById('pkmnName').innerText = pkmn.pokemon_name;
-            document.getElementById('statsDisplay').innerText = `Base: ${pkmn.base_attack} / ${pkmn.base_defense} / ${pkmn.base_stamina}`;
-            document.getElementById(key + 'CP').innerText = `CP ${user.cp}`;
-            document.getElementById(key + 'Level').innerText = `Target Lv ${user.lv}`;
-            document.getElementById(key + 'RankText').innerText = `#${rank}`;
-            document.getElementById(key + 'Percent').innerText = `${percent}%`;
-            document.getElementById(key + 'RankRing').className = rank <= 10 ? "rank-ring rank-top" : "rank-ring";
-
+        function detectCurrentLevel() {
+            if (!activePkmn) return 1;
+            const iv = getIVs();
             const curCP = parseInt(document.getElementById('currentCP').value) || 0;
-            let startLv = 1;
+            const badge = document.getElementById('detectedLevelBadge');
+            const slider = document.getElementById('levelSlider');
+
             if (curCP > 0) {
                 let bestMatch = 1, minDiff = 999;
                 for (let lv in CPM_DATA) {
-                    const m = CPM_DATA[lv];
-                    const cp = Math.floor((basePkmn.base_attack + ivA) * Math.sqrt(basePkmn.base_defense + ivD) * Math.sqrt(basePkmn.base_stamina + ivS) * (m*m) / 10);
-                    if (Math.abs(cp - curCP) < minDiff) { minDiff = Math.abs(cp - curCP); bestMatch = parseFloat(lv); }
+                    const cp = calculateCP(activePkmn, iv.a, iv.d, iv.s, parseFloat(lv));
+                    if (Math.abs(cp - curCP) < minDiff) { 
+                        minDiff = Math.abs(cp - curCP); 
+                        bestMatch = parseFloat(lv); 
+                    }
                 }
-                startLv = bestMatch;
+                detectedCurrentLevel = bestMatch;
+                badge.innerText = `LV ${bestMatch}`;
+                badge.classList.remove('hidden');
+            } else {
+                detectedCurrentLevel = 1;
+                badge.classList.add('hidden');
             }
 
+            // Sync slider bounds
+            const currentSliderVal = parseFloat(slider.value);
+            slider.min = detectedCurrentLevel;
+            if (currentSliderVal < detectedCurrentLevel) {
+                slider.value = detectedCurrentLevel;
+            }
+            return detectedCurrentLevel;
+        }
+
+        function calculateTargetData() {
+            if (!activePkmn) return;
+            
+            const iv = getIVs();
+            const targetLevel = parseFloat(document.getElementById('levelSlider').value);
+            
+            // Calculate Target CP
+            const targetCP = calculateCP(activePkmn, iv.a, iv.d, iv.s, targetLevel);
+            document.getElementById('targetCP').innerText = `CP ${targetCP}`;
+            document.getElementById('targetLevelText').innerText = `Lv ${targetLevel}`;
+
+            // Calculate Costs (from detectedCurrentLevel -> targetLevel)
             let totalD = 0, totalC = 0, totalXL = 0;
-            for (let l = startLv; l < user.lv; l += 0.5) {
+            
+            for (let l = detectedCurrentLevel; l < targetLevel; l += 0.5) {
                 const floorL = Math.floor(l);
                 const dKey = Object.keys(DUST_COSTS).reverse().find(k => k <= floorL);
                 const cKey = Object.keys(CANDY_COSTS).reverse().find(k => k <= floorL);
+                
                 totalD += DUST_COSTS[dKey];
-                if (l < 40) totalC += CANDY_COSTS[cKey]; else totalXL += CANDY_COSTS[cKey];
+                if (l < 40) totalC += CANDY_COSTS[cKey]; 
+                else totalXL += CANDY_COSTS[cKey];
             }
 
-            document.querySelector(`#${key}Dust b`).innerText = totalD.toLocaleString();
-            document.querySelector(`#${key}Candy b`).innerText = (totalC + evoCost).toLocaleString();
-            const xlEl = document.getElementById(key + 'XL');
+            // Add Evolution Candy Cost
+            totalC += evoPathCost;
+
+            // Render Costs
+            document.getElementById('costDust').innerText = totalD.toLocaleString();
+            document.getElementById('costCandy').innerText = totalC.toLocaleString();
+            
+            const xlEl = document.getElementById('costXL');
+            const xlIcon = document.getElementById('iconXL');
             if (totalXL > 0) {
-                xlEl.classList.remove('hidden');
-                xlEl.querySelector('b').innerText = totalXL;
+                xlEl.classList.remove('hidden'); xlIcon.classList.remove('hidden');
+                xlEl.innerText = `${totalXL} XL`;
             } else {
-                xlEl.classList.add('hidden');
+                xlEl.classList.add('hidden'); xlIcon.classList.add('hidden');
+            }
+
+            // Update Power Up Button State
+            document.getElementById('btnPowerUp').disabled = targetLevel >= 51;
+        }
+
+        function updateUI() {
+            if (!activePkmn) return;
+            
+            document.getElementById('pkmnName').innerText = activePkmn.pokemon_name;
+            document.getElementById('statsDisplay').innerText = `Base: ${activePkmn.base_attack} / ${activePkmn.base_defense} / ${activePkmn.base_stamina}`;
+            
+            // Evolve / Devolve states
+            document.getElementById('btnEvolve').disabled = !evoForward[activePkmn.pokemon_name];
+            document.getElementById('btnDevolve').disabled = !evoBackward[activePkmn.pokemon_name];
+            document.getElementById('levelSlider').disabled = false;
+
+            detectCurrentLevel();
+            calculateTargetData();
+        }
+
+function traverseEvo(direction) {
+            if (!activePkmn) return;
+            const currentName = activePkmn.pokemon_name;
+            const iv = getIVs(); // Grab the current IVs
+            
+            if (direction === 1 && evoForward[currentName]) {
+                evoPathCost += evoForward[currentName].cost || 0;
+                activePkmn = pokemonDB.find(p => p.pokemon_name === evoForward[currentName].name);
+            } else if (direction === -1 && evoBackward[currentName]) {
+                evoPathCost = Math.max(0, evoPathCost - (evoBackward[currentName].cost || 0));
+                activePkmn = pokemonDB.find(p => p.pokemon_name === evoBackward[currentName].name);
+            }
+
+            // FIX: Calculate the new CP for the evolved form at the exact same level
+            // and update the input box so the calculator doesn't think the level dropped.
+            if (document.getElementById('currentCP').value !== "") {
+                const newCP = calculateCP(activePkmn, iv.a, iv.d, iv.s, detectedCurrentLevel);
+                document.getElementById('currentCP').value = newCP;
+            }
+
+            updateUI();
+        }
+
+        function powerUp() {
+            const slider = document.getElementById('levelSlider');
+            const newVal = parseFloat(slider.value) + 0.5;
+            if (newVal <= 51) {
+                slider.value = newVal;
+                calculateTargetData();
             }
         }
 
-        function getBestStats(pkmn, a, d, s, cap) {
-            let res = { cp: 0, lv: 1, sp: 0 };
-            for (let lv in CPM_DATA) {
-                const m = CPM_DATA[lv];
-                const cp = Math.floor((pkmn.base_attack + a) * Math.sqrt(pkmn.base_defense + d) * Math.sqrt(pkmn.base_stamina + s) * (m*m) / 10);
-                if (cp <= cap) {
-                    const sp = ((pkmn.base_attack + a) * m) * ((pkmn.base_defense + d) * m) * Math.floor((pkmn.base_stamina + s) * m);
-                    if (sp >= res.sp) res = { cp: Math.max(10, cp), lv: parseFloat(lv), sp };
-                }
-            }
-            return res;
-        }
-
-        function toggleEvolve() { 
-            isEvolved = !isEvolved; 
-            document.getElementById('evolveBtn').innerText = isEvolved ? "View Base" : "View Evolution";
-            calculate(); 
-        }
-
+        // Event Listeners
         document.getElementById('pkmnSearch').addEventListener('input', (e) => {
             const q = e.target.value.toLowerCase(), res = document.getElementById('searchResults');
             if (q.length < 2) { res.classList.add('hidden'); return; }
@@ -250,11 +318,14 @@
         });
 
         window.pick = (name) => {
-            selected = pokemonDB.find(p => p.pokemon_name === name); isEvolved = false;
+            baseSearchPkmn = pokemonDB.find(p => p.pokemon_name === name); 
+            activePkmn = baseSearchPkmn;
+            evoPathCost = 0; // Reset evolution cost tracking
+            
             document.getElementById('searchResults').classList.add('hidden');
-            document.getElementById('evolveBtn').style.display = evolutionDB.find(e => e.pokemon_name === name) ? 'flex' : 'none';
             document.getElementById('pkmnSearch').value = "";
-            calculate();
+            document.getElementById('levelSlider').value = "1"; // Reset slider
+            updateUI();
         };
 
         ['atkIn', 'defIn', 'staIn', 'currentCP'].forEach(id => {
@@ -263,9 +334,11 @@
                     document.getElementById(id.replace('In', 'Val')).innerText = e.target.value;
                     document.getElementById(id.replace('In', 'Fill')).style.width = (e.target.value / 15 * 100) + "%";
                 }
-                calculate();
+                updateUI();
             });
         });
+
+        document.getElementById('levelSlider').addEventListener('input', calculateTargetData);
 
         init();
     </script>
