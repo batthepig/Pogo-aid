@@ -78,11 +78,13 @@
         // Restoring your exact original logic here
         let pokemonDB = [], evolutionDB = [], activePkmn = null;
 
-        async function init() {
-            const [s, e] = await Promise.all([
-                fetch('https://pogoapi.net/api/v1/pokemon_stats.json'),
-                fetch('https://pogoapi.net/api/v1/pokemon_evolutions.json')
-            ]);
+// Add the proxy URL before the pogoapi link
+async function init() {
+    const proxy = "https://corsproxy.io/?"; 
+    const [s, e] = await Promise.all([
+        fetch(proxy + 'https://pogoapi.net/api/v1/pokemon_stats.json'),
+        fetch(proxy + 'https://pogoapi.net/api/v1/pokemon_evolutions.json')
+    ]);
             pokemonDB = await s.json(); evolutionDB = await e.json();
             lucide.createIcons();
         }
