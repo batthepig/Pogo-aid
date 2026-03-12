@@ -45,7 +45,7 @@
 
     <div class="space-y-3 mb-4">
         <div class="relative">
-            <input type="text" id="pkmnSearch" placeholder="Search Pokemon..." class="w-full h-14 bg-[#1c1c22] rounded-2xl px-6 text-white outline-none">
+            <input type="text" id="pkmnSearch" placeholder="Loading database..." disabled class="w-full h-14 bg-[#1c1c22] rounded-2xl px-6 text-white outline-none">
             <div id="searchResults" class="absolute z-50 w-full mt-2 bg-[#1c1c22] hidden rounded-xl border border-white/10 max-h-60 overflow-y-auto"></div>
         </div>
         <input type="number" id="currentCP" placeholder="Current CP" class="w-full h-14 bg-[#1c1c22] rounded-xl px-4 text-white text-center font-bold outline-none">
@@ -93,14 +93,39 @@
 
     <script>
         let pokemonDB = [], activePkmn = null;
-        const proxy = "https://corsproxy.io/?"; 
         
         async function init() {
+            const searchInput = document.getElementById('pkmnSearch');
+            
             try {
-                const response = await fetch(proxy + 'https://pogoapi.net/api/v1/pokemon_stats.json');
-                pokemonDB = await response.json();
+                // Fetch directly from official PogoAPI (No proxy)
+                const response = await fetch('https://pogoapi.net/api/v1/pokemon_stats.json');
+                
+                if (!response.ok) throw new Error("API Connection Failed");
+                
+                const rawData = await response.json();
+                
+                // Clean up duplicates (PogoAPI has multiple forms for the same Pokemon)
+                const uniqueDB = [];
+                const seen = new Set();
+                for (const p of rawData) {
+                    if (!seen.has(p.pokemon_name)) {
+                        seen.add(p.pokemon_name);
+                        uniqueDB.push(p);
+                    }
+                }
+                pokemonDB = uniqueDB;
+
+                // Success! Enable search box.
+                searchInput.placeholder = "Search Pokemon...";
+                searchInput.disabled = false;
                 lucide.createIcons();
-            } catch (err) { console.error("API error"); }
+
+            } catch (err) { 
+                // If it fails, tell us directly in the search bar
+                searchInput.placeholder = "Error: Could not load data"; 
+                console.error("Fetch Error:", err);
+            }
         }
 
         function updateUI() {
@@ -109,7 +134,7 @@
             const d = parseInt(document.getElementById('defIn').value);
             const s = parseInt(document.getElementById('staIn').value);
             const l = parseFloat(document.getElementById('levelSlider').value);
-            // Original calc formula
+            
             const cp = Math.floor((activePkmn.base_attack + a) * Math.sqrt(activePkmn.base_defense + d) * Math.sqrt(activePkmn.base_stamina + s) * 0.62 / 10);
             document.getElementById('targetCP').innerText = `CP ${Math.max(10, cp)}`;
             document.getElementById('targetLevelText').innerText = `Lv ${l}`;
@@ -123,6 +148,7 @@
         document.getElementById('pkmnSearch').addEventListener('input', (e) => {
             const q = e.target.value.toLowerCase(), res = document.getElementById('searchResults');
             if (q.length < 2) { res.classList.add('hidden'); return; }
+            
             const matches = pokemonDB.filter(p => p.pokemon_name.toLowerCase().includes(q)).slice(0, 10);
             res.innerHTML = matches.map(p => `<div class="p-4 border-b border-white/5" onclick="pick('${p.pokemon_name}')">${p.pokemon_name}</div>`).join('');
             res.classList.remove('hidden');
